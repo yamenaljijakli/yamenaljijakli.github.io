@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>أفضل الألعاب هذا الربع | يامن</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Syne:wght@600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root{--bg:#0a0a0f;--surface:#111118;--border:#1e1e2e;--accent:#7c6af7;--accent2:#3ecfcf;--accent3:#f7706a;--text:#e2e2f0;--muted:#6b6b8a}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{background:var(--bg);color:var(--text);font-family:'IBM Plex Sans Arabic',sans-serif;font-size:16px;line-height:1.8;overflow-x:hidden}
+    ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:var(--accent);border-radius:4px}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1rem 2.5rem;background:rgba(10,10,15,.85);backdrop-filter:blur(18px);border-bottom:1px solid var(--border)}
+    .nav-logo{font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:var(--accent2);text-decoration:none}
+    .nav-back{display:flex;align-items:center;gap:.5rem;color:var(--muted);text-decoration:none;font-size:.85rem;transition:color .2s}
+    .nav-back:hover{color:var(--text)}
+    .grid-bg{position:fixed;inset:0;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:48px 48px;opacity:.18;pointer-events:none;z-index:0}
+    .post-wrapper{position:relative;z-index:1;max-width:780px;margin:0 auto;padding:7rem 2rem 5rem}
+    .post-header{margin-bottom:3rem}
+    .post-meta{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;margin-bottom:1.5rem}
+    .post-cat{font-family:'Fira Code',monospace;font-size:.72rem;padding:.25rem .75rem;border-radius:4px;background:rgba(247,112,106,.12);color:var(--accent3);border:1px solid rgba(247,112,106,.25)}
+    .post-date,.post-read-time{font-family:'Fira Code',monospace;font-size:.75rem;color:var(--muted)}
+    .post-title{font-family:'Syne',sans-serif;font-size:clamp(1.8rem,5vw,2.8rem);font-weight:800;line-height:1.2;margin-bottom:1rem}
+    .post-subtitle{font-size:1.1rem;color:var(--muted);max-width:600px}
+    .post-divider{height:1px;background:linear-gradient(90deg,var(--accent3),transparent);margin:2rem 0}
+    .post-content h2{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:700;margin:2.5rem 0 1rem;color:var(--accent3)}
+    .post-content p{color:#c8c8e0;margin-bottom:1.2rem;font-size:1rem}
+    .post-content strong{color:var(--text);font-weight:600}
+    .post-content ul{padding-right:1.5rem;margin-bottom:1.2rem}
+    .post-content li{color:#c8c8e0;margin-bottom:.5rem}
+
+    /* GAME CARD */
+    .game-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.5rem;margin:1.5rem 0;transition:border-color .3s}
+    .game-card:hover{border-color:rgba(247,112,106,.4)}
+    .game-header{display:flex;align-items:center;gap:1rem;margin-bottom:1rem}
+    .game-emoji{font-size:2.5rem}
+    .game-info{}
+    .game-title{font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:700}
+    .game-genre{font-family:'Fira Code',monospace;font-size:.72rem;color:var(--muted)}
+    .game-rating{display:flex;gap:.2rem;margin-top:.3rem;color:#f5c518;font-size:.9rem}
+    .game-desc{color:#c8c8e0;font-size:.95rem}
+    .game-verdict{margin-top:.8rem;padding:.6rem 1rem;background:rgba(247,112,106,.08);border-radius:6px;font-size:.88rem;color:var(--accent3)}
+
+    .callout{border-right:3px solid var(--accent3);background:rgba(247,112,106,.07);border-radius:0 8px 8px 0;padding:1rem 1.2rem;margin:1.5rem 0}
+    .callout-title{font-weight:700;font-size:.85rem;margin-bottom:.4rem;color:var(--accent3)}
+    .callout p{margin:0;font-size:.93rem}
+    .post-nav{display:flex;gap:1rem;margin-top:4rem;flex-wrap:wrap}
+    .post-nav-btn{flex:1;min-width:200px;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.2rem 1.5rem;text-decoration:none;color:var(--text);transition:border-color .25s,transform .25s;display:flex;flex-direction:column;gap:.3rem}
+    .post-nav-btn:hover{border-color:var(--accent);transform:translateY(-3px)}
+    .post-nav-label{font-size:.72rem;color:var(--muted);font-family:'Fira Code',monospace}
+    .post-nav-title{font-size:.92rem;font-weight:600}
+    .back-home{display:inline-flex;align-items:center;gap:.5rem;margin-top:2rem;padding:.75rem 1.5rem;background:var(--accent);color:#fff;border-radius:8px;text-decoration:none;font-weight:600;font-size:.9rem;transition:all .25s}
+    .back-home:hover{background:#9180f8;transform:translateY(-2px)}
+    @media(max-width:768px){nav{padding:.85rem 1.2rem}.post-wrapper{padding:5.5rem 1.2rem 3rem}.post-title{font-size:1.7rem}.post-nav{flex-direction:column}}
+  </style>
+</head>
+<body>
+<div class="grid-bg"></div>
+<nav>
+  <a href="index.html" class="nav-logo">YAMEN.DEV</a>
+  <a href="index.html" class="nav-back">← العودة للمدونة</a>
+</nav>
+<div class="post-wrapper">
+  <div class="post-header">
+    <div class="post-meta">
+      <span class="post-cat">🎮 ألعاب</span>
+      <span class="post-date">٢٠ مارس ٢٠٢٥</span>
+      <span class="post-read-time">⏱ 5 دقائق قراءة</span>
+    </div>
+    <h1 class="post-title">أفضل الألعاب التي لعبتها هذا الربع — تجارب شخصية بلا سبويلر</h1>
+    <p class="post-subtitle">قائمتي الشخصية للألعاب اللي تركت أثراً — مع رأيي الصريح بعيداً عن التقييمات التقليدية.</p>
+    <div class="post-divider"></div>
+  </div>
+  <div class="post-content">
+
+    <p>مو كل لعبة تحصل على 9/10 تستحق وقتك. هنا أشارك تجربتي الشخصية بصدق — ما أقدر أقول إن لعبة رائعة لأن كل أحد يقول كذا.</p>
+
+    <div class="callout">
+      <div class="callout-title">🚫 بلا سبويلر</div>
+      <p>كل ما أكتبه هنا لن يكشف أي أحداث رئيسية. تقدر تقرأ بأمان.</p>
+    </div>
+
+    <h2>🥇 اللعبة اللي فاجأتني أكثر</h2>
+
+    <div class="game-card">
+      <div class="game-header">
+        <div class="game-emoji">⚔️</div>
+        <div class="game-info">
+          <div class="game-title">Black Myth: Wukong</div>
+          <div class="game-genre">Action RPG • PC / PS5</div>
+          <div class="game-rating">★★★★★</div>
+        </div>
+      </div>
+      <p class="game-desc">دخلت اللعبة بتوقعات عالية جداً بسبب الضجة، وخرجت منها مبهور أكثر. الجرافيكس على PC بإعدادات عالية شيء آخر. نظام القتال يحتاج صبر في البداية لكن لما تتعلمه تحس بإحساس لا يوصف.</p>
+      <div class="game-verdict">⚡ رأيي: الأفضل بصرياً لعبته في حياتي. القتال ممتاز والقصة عميقة.</div>
+    </div>
+
+    <h2>🥈 لعبة هادئة لكن لا تُنسى</h2>
+
+    <div class="game-card">
+      <div class="game-header">
+        <div class="game-emoji">🌊</div>
+        <div class="game-info">
+          <div class="game-title">Subnautica: Below Zero</div>
+          <div class="game-genre">Survival • PC</div>
+          <div class="game-rating">★★★★☆</div>
+        </div>
+      </div>
+      <p class="game-desc">لعبة Survival تحت الماء — بدأتها لأشغل وقت فارغ وانتهيت بها بعد 40 ساعة. الجو مرعب ومريح في نفس الوقت. الاستكشاف ممتع جداً وكل زاوية فيها شيء جديد.</p>
+      <div class="game-verdict">⚡ رأيي: مثالية لو تبي تجربة هادئة ومختلفة. مش للجميع لكن تستحق.</div>
+    </div>
+
+    <h2>🥉 خيبة الأمل هذا الربع</h2>
+
+    <div class="game-card">
+      <div class="game-header">
+        <div class="game-emoji">😐</div>
+        <div class="game-info">
+          <div class="game-title">Skull and Bones</div>
+          <div class="game-genre">Action • PC</div>
+          <div class="game-rating">★★☆☆☆</div>
+        </div>
+      </div>
+      <p class="game-desc">انتظرتها سنوات وخذلتني. الفكرة ممتازة — لعبة قرصنة مفتوحة — لكن التنفيذ فارغ. المحتوى قليل، والـ Gameplay متكرر بسرعة. الجرافيكس كويس بس ما يكفي.</p>
+      <div class="game-verdict">⚡ رأيي: ما أنصح بها بالسعر الكامل. انتظر خصم 70%.</div>
+    </div>
+
+    <h2>الخلاصة</h2>
+    <p>هذا الربع كان قوياً نسبياً. Black Myth تستحق كل التقييمات، وSubnautica فاجأتني بشكل إيجابي. الربع القادم متحمس لعدة ألعاب — سأشارك تجربتها هنا أولاً بأول.</p>
+
+  </div>
+  <div class="post-nav">
+    <a href="post-python.html" class="post-nav-btn">
+      <span class="post-nav-label">← المقال السابق</span>
+      <span class="post-nav-title">مشروع Python على GitHub</span>
+    </a>
+    <a href="post-phone-review.html" class="post-nav-btn">
+      <span class="post-nav-label">المقال التالي →</span>
+      <span class="post-nav-title">مراجعة الهاتف بعد شهر</span>
+    </a>
+  </div>
+  <a href="index.html" class="back-home">🏠 الرئيسية</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>مشروع Python على GitHub | يامن</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Syne:wght@600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root{--bg:#0a0a0f;--surface:#111118;--border:#1e1e2e;--accent:#7c6af7;--accent2:#3ecfcf;--accent3:#f7706a;--text:#e2e2f0;--muted:#6b6b8a}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{background:var(--bg);color:var(--text);font-family:'IBM Plex Sans Arabic',sans-serif;font-size:16px;line-height:1.8;overflow-x:hidden}
+    ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:var(--accent);border-radius:4px}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1rem 2.5rem;background:rgba(10,10,15,.85);backdrop-filter:blur(18px);border-bottom:1px solid var(--border)}
+    .nav-logo{font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:var(--accent2);text-decoration:none}
+    .nav-back{display:flex;align-items:center;gap:.5rem;color:var(--muted);text-decoration:none;font-size:.85rem;transition:color .2s}
+    .nav-back:hover{color:var(--text)}
+    .grid-bg{position:fixed;inset:0;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:48px 48px;opacity:.18;pointer-events:none;z-index:0}
+    .post-wrapper{position:relative;z-index:1;max-width:780px;margin:0 auto;padding:7rem 2rem 5rem}
+    .post-header{margin-bottom:3rem}
+    .post-meta{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;margin-bottom:1.5rem}
+    .post-cat{font-family:'Fira Code',monospace;font-size:.72rem;padding:.25rem .75rem;border-radius:4px;background:rgba(62,207,207,.12);color:var(--accent2);border:1px solid rgba(62,207,207,.25)}
+    .post-date,.post-read-time{font-family:'Fira Code',monospace;font-size:.75rem;color:var(--muted)}
+    .post-title{font-family:'Syne',sans-serif;font-size:clamp(1.8rem,5vw,2.8rem);font-weight:800;line-height:1.2;margin-bottom:1rem}
+    .post-subtitle{font-size:1.1rem;color:var(--muted);max-width:600px}
+    .post-divider{height:1px;background:linear-gradient(90deg,var(--accent2),transparent);margin:2rem 0}
+    .post-content h2{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:700;margin:2.5rem 0 1rem;color:var(--accent2)}
+    .post-content p{color:#c8c8e0;margin-bottom:1.2rem;font-size:1rem}
+    .post-content strong{color:var(--text);font-weight:600}
+    .post-content ul,.post-content ol{padding-right:1.5rem;margin-bottom:1.2rem}
+    .post-content li{color:#c8c8e0;margin-bottom:.5rem}
+    .code-block{background:#0d0d14;border:1px solid var(--border);border-radius:10px;padding:1.2rem 1.5rem;margin:1.5rem 0;overflow-x:auto}
+    .code-block code{font-family:'Fira Code',monospace;font-size:.85rem;color:var(--accent2);line-height:1.7;white-space:pre}
+    .callout{border-right:3px solid var(--accent);background:rgba(124,106,247,.07);border-radius:0 8px 8px 0;padding:1rem 1.2rem;margin:1.5rem 0}
+    .callout.tip{border-color:var(--accent2);background:rgba(62,207,207,.07)}
+    .callout-title{font-weight:700;font-size:.85rem;margin-bottom:.4rem}
+    .callout.tip .callout-title{color:var(--accent2)}
+    .callout p{margin:0;font-size:.93rem}
+    .post-nav{display:flex;gap:1rem;margin-top:4rem;flex-wrap:wrap}
+    .post-nav-btn{flex:1;min-width:200px;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.2rem 1.5rem;text-decoration:none;color:var(--text);transition:border-color .25s,transform .25s;display:flex;flex-direction:column;gap:.3rem}
+    .post-nav-btn:hover{border-color:var(--accent);transform:translateY(-3px)}
+    .post-nav-label{font-size:.72rem;color:var(--muted);font-family:'Fira Code',monospace}
+    .post-nav-title{font-size:.92rem;font-weight:600}
+    .back-home{display:inline-flex;align-items:center;gap:.5rem;margin-top:2rem;padding:.75rem 1.5rem;background:var(--accent);color:#fff;border-radius:8px;text-decoration:none;font-weight:600;font-size:.9rem;transition:all .25s}
+    .back-home:hover{background:#9180f8;transform:translateY(-2px)}
+    @media(max-width:768px){nav{padding:.85rem 1.2rem}.post-wrapper{padding:5.5rem 1.2rem 3rem}.post-title{font-size:1.7rem}.post-nav{flex-direction:column}}
+  </style>
+</head>
+<body>
+<div class="grid-bg"></div>
+<nav>
+  <a href="index.html" class="nav-logo">YAMEN.DEV</a>
+  <a href="index.html" class="nav-back">← العودة للمدونة</a>
+</nav>
+<div class="post-wrapper">
+  <div class="post-header">
+    <div class="post-meta">
+      <span class="post-cat">🐍 برمجة</span>
+      <span class="post-date">٢ أبريل ٢٠٢٥</span>
+      <span class="post-read-time">⏱ 6 دقائق قراءة</span>
+    </div>
+    <h1 class="post-title">مشروعي الأول على GitHub: أوتوميشن بالبايثون يوفر ساعات من العمل</h1>
+    <p class="post-subtitle">كيف بنيت سكريبت بسيط يؤتمت مهام متكررة ويوفر وقتاً ثميناً — وكيف تبدأ مثلي.</p>
+    <div class="post-divider"></div>
+  </div>
+  <div class="post-content">
+
+    <p>كل مبرمج مبتدئ يسأل: <strong>"ما أول مشروع أنشئه؟"</strong> — جوابي دائماً: اصنع شيئاً يحل مشكلة تواجهها أنت. هذا بالضبط ما فعلته.</p>
+
+    <h2>المشكلة اللي واجهتها</h2>
+    <p>كنت كل أسبوع أنظّم ملفات مجلد التنزيلات يدوياً — صور هنا، PDFs هناك، فيديوهات في مكان ثالث. عملية مملة تأخذ 10-15 دقيقة. قررت أكتب سكريبت بايثون يسوي هذا تلقائياً.</p>
+
+    <h2>الفكرة الأساسية</h2>
+    <p>السكريبت يراقب مجلداً معيناً، وكل ما يجد ملف جديد يصنّفه حسب امتداده ويحركه للمجلد المناسب تلقائياً.</p>
+
+    <div class="callout tip">
+      <div class="callout-title">💡 المكتبات المستخدمة</div>
+      <p>os, shutil, watchdog — كلها مجانية ومثبّتة مع Python أو بأمر pip واحد.</p>
+    </div>
+
+    <h2>الكود الأساسي</h2>
+
+    <div class="code-block"><code>import os
+import shutil
+from pathlib import Path
+
+# تعريف المجلدات
+DOWNLOADS = Path.home() / "Downloads"
+
+FOLDERS = {
+    "صور":    [".jpg", ".jpeg", ".png", ".gif", ".webp"],
+    "فيديو":  [".mp4", ".mkv", ".avi", ".mov"],
+    "مستندات":[".pdf", ".docx", ".xlsx", ".pptx"],
+    "برامج":  [".exe", ".apk", ".dmg", ".zip"],
+    "أكواد":  [".py", ".js", ".html", ".css"],
+}
+
+def get_folder(extension):
+    for folder, exts in FOLDERS.items():
+        if extension.lower() in exts:
+            return folder
+    return "أخرى"
+
+def organize():
+    for file in DOWNLOADS.iterdir():
+        if file.is_file():
+            dest = DOWNLOADS / get_folder(file.suffix)
+            dest.mkdir(exist_ok=True)
+            shutil.move(str(file), dest / file.name)
+            print(f"نقل: {file.name} → {dest.name}")
+
+if __name__ == "__main__":
+    organize()
+    print("✅ تم تنظيم المجلد!")</code></div>
+
+    <h2>كيف أشغّله؟</h2>
+    <ol>
+      <li>تأكد إن Python مثبّت عندك</li>
+      <li>احفظ الكود في ملف اسمه <strong>organizer.py</strong></li>
+      <li>افتح Terminal أو CMD في نفس المجلد</li>
+      <li>شغّله بالأمر: <code style="background:rgba(124,106,247,.15);padding:.1rem .4rem;border-radius:4px;font-family:'Fira Code',monospace">python organizer.py</code></li>
+    </ol>
+
+    <h2>التطوير: المراقبة التلقائية</h2>
+    <p>الإصدار الأول كان يشتغل مرة واحدة فقط. طورت المشروع ليراقب المجلد بشكل مستمر باستخدام مكتبة <strong>watchdog</strong>:</p>
+
+    <div class="code-block"><code>pip install watchdog</code></div>
+
+    <div class="code-block"><code>from watchdog.observers import Observer
+from watchdog.events import FileSystemEventHandler
+import time
+
+class Handler(FileSystemEventHandler):
+    def on_created(self, event):
+        if not event.is_directory:
+            file = Path(event.src_path)
+            dest = DOWNLOADS / get_folder(file.suffix)
+            dest.mkdir(exist_ok=True)
+            time.sleep(1)  # انتظر اكتمال التنزيل
+            shutil.move(str(file), dest / file.name)
+
+observer = Observer()
+observer.schedule(Handler(), str(DOWNLOADS), recursive=False)
+observer.start()
+print("🔍 جاري المراقبة... Ctrl+C للإيقاف")
+try:
+    while True:
+        time.sleep(1)
+except KeyboardInterrupt:
+    observer.stop()</code></div>
+
+    <h2>ما تعلمته من هذا المشروع</h2>
+    <ul>
+      <li>التعامل مع <strong>الـ File System</strong> في Python</li>
+      <li>مفهوم <strong>Event-Driven Programming</strong></li>
+      <li>كيفية نشر مشروع على <strong>GitHub</strong></li>
+      <li>كتابة <strong>README</strong> واضح للمستخدمين</li>
+    </ul>
+
+    <h2>الخلاصة</h2>
+    <p>أفضل مشروع تبدأ فيه هو الذي يحل مشكلة حقيقية تواجهها. هذا المشروع وفّر عليّ أكثر من ساعة أسبوعياً، وعلّمني أكثر من أي كورس نظري.</p>
+    <p>الكود موجود على GitHub — شوف حسابي وخذه واستخدمه. 🚀</p>
+
+  </div>
+  <div class="post-nav">
+    <a href="post-snapdragon.html" class="post-nav-btn">
+      <span class="post-nav-label">← المقال السابق</span>
+      <span class="post-nav-title">Snapdragon vs Dimensity</span>
+    </a>
+    <a href="post-games.html" class="post-nav-btn">
+      <span class="post-nav-label">المقال التالي →</span>
+      <span class="post-nav-title">أفضل الألعاب هذا الربع</span>
+    </a>
+  </div>
+  <a href="index.html" class="back-home">🏠 الرئيسية</a>
+</div>
+</body>
+</html>

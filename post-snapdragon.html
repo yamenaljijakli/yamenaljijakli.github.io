@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Snapdragon vs Dimensity | يامن</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Syne:wght@600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root { --bg:#0a0a0f;--surface:#111118;--border:#1e1e2e;--accent:#7c6af7;--accent2:#3ecfcf;--accent3:#f7706a;--text:#e2e2f0;--muted:#6b6b8a; }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{background:var(--bg);color:var(--text);font-family:'IBM Plex Sans Arabic',sans-serif;font-size:16px;line-height:1.8;overflow-x:hidden}
+    ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:var(--accent);border-radius:4px}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1rem 2.5rem;background:rgba(10,10,15,.85);backdrop-filter:blur(18px);border-bottom:1px solid var(--border)}
+    .nav-logo{font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:var(--accent2);text-decoration:none}
+    .nav-back{display:flex;align-items:center;gap:.5rem;color:var(--muted);text-decoration:none;font-size:.85rem;transition:color .2s}
+    .nav-back:hover{color:var(--text)}
+    .grid-bg{position:fixed;inset:0;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:48px 48px;opacity:.18;pointer-events:none;z-index:0}
+    .post-wrapper{position:relative;z-index:1;max-width:780px;margin:0 auto;padding:7rem 2rem 5rem}
+    .post-header{margin-bottom:3rem}
+    .post-meta{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;margin-bottom:1.5rem}
+    .post-cat{font-family:'Fira Code',monospace;font-size:.72rem;padding:.25rem .75rem;border-radius:4px;background:rgba(62,207,207,.12);color:var(--accent2);border:1px solid rgba(62,207,207,.25)}
+    .post-date,.post-read-time{font-family:'Fira Code',monospace;font-size:.75rem;color:var(--muted)}
+    .post-title{font-family:'Syne',sans-serif;font-size:clamp(1.8rem,5vw,2.8rem);font-weight:800;line-height:1.2;margin-bottom:1rem}
+    .post-subtitle{font-size:1.1rem;color:var(--muted);max-width:600px}
+    .post-divider{height:1px;background:linear-gradient(90deg,var(--accent2),transparent);margin:2rem 0}
+    .post-content h2{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:700;margin:2.5rem 0 1rem;color:var(--accent2)}
+    .post-content h3{font-size:1.1rem;font-weight:600;margin:2rem 0 .75rem;color:var(--text)}
+    .post-content p{color:#c8c8e0;margin-bottom:1.2rem;font-size:1rem}
+    .post-content strong{color:var(--text);font-weight:600}
+    .post-content ul,.post-content ol{padding-right:1.5rem;margin-bottom:1.2rem}
+    .post-content li{color:#c8c8e0;margin-bottom:.5rem}
+    .callout{border-right:3px solid var(--accent);background:rgba(124,106,247,.07);border-radius:0 8px 8px 0;padding:1rem 1.2rem;margin:1.5rem 0}
+    .callout.tip{border-color:var(--accent2);background:rgba(62,207,207,.07)}
+    .callout.warn{border-color:var(--accent3);background:rgba(247,112,106,.07)}
+    .callout-title{font-weight:700;font-size:.85rem;margin-bottom:.4rem}
+    .callout.tip .callout-title{color:var(--accent2)}
+    .callout.warn .callout-title{color:var(--accent3)}
+    .callout p{margin:0;font-size:.93rem}
+
+    /* COMPARISON TABLE */
+    .compare-table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:.9rem}
+    .compare-table th{background:var(--surface);padding:.9rem 1rem;text-align:right;font-family:'Fira Code',monospace;font-size:.78rem;color:var(--muted);border-bottom:2px solid var(--border)}
+    .compare-table td{padding:.85rem 1rem;border-bottom:1px solid var(--border);color:#c8c8e0}
+    .compare-table tr:hover td{background:rgba(124,106,247,.04)}
+    .win{color:var(--accent2);font-weight:700}
+    .lose{color:var(--muted)}
+
+    .post-nav{display:flex;gap:1rem;margin-top:4rem;flex-wrap:wrap}
+    .post-nav-btn{flex:1;min-width:200px;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.2rem 1.5rem;text-decoration:none;color:var(--text);transition:border-color .25s,transform .25s;display:flex;flex-direction:column;gap:.3rem}
+    .post-nav-btn:hover{border-color:var(--accent);transform:translateY(-3px)}
+    .post-nav-label{font-size:.72rem;color:var(--muted);font-family:'Fira Code',monospace}
+    .post-nav-title{font-size:.92rem;font-weight:600}
+    .back-home{display:inline-flex;align-items:center;gap:.5rem;margin-top:2rem;padding:.75rem 1.5rem;background:var(--accent);color:#fff;border-radius:8px;text-decoration:none;font-weight:600;font-size:.9rem;transition:all .25s}
+    .back-home:hover{background:#9180f8;transform:translateY(-2px)}
+    @media(max-width:768px){nav{padding:.85rem 1.2rem}.post-wrapper{padding:5.5rem 1.2rem 3rem}.post-title{font-size:1.7rem}.post-nav{flex-direction:column}.compare-table{font-size:.8rem}}
+  </style>
+</head>
+<body>
+<div class="grid-bg"></div>
+<nav>
+  <a href="index.html" class="nav-logo">YAMEN.DEV</a>
+  <a href="index.html" class="nav-back">← العودة للمدونة</a>
+</nav>
+<div class="post-wrapper">
+  <div class="post-header">
+    <div class="post-meta">
+      <span class="post-cat">⚙️ هاردوير</span>
+      <span class="post-date">١٥ أبريل ٢٠٢٥</span>
+      <span class="post-read-time">⏱ 7 دقائق قراءة</span>
+    </div>
+    <h1 class="post-title">مقارنة معالجات 2025: Snapdragon vs Dimensity — أيهما يستحق فلوسك؟</h1>
+    <p class="post-subtitle">تحليل مفصّل للفرق الفعلي بين المعالجتين في الأداء، البطارية، والتصوير.</p>
+    <div class="post-divider"></div>
+  </div>
+  <div class="post-content">
+
+    <p>السؤال اللي يطرحه كل شخص قبل شراء هاتف جديد: <strong>Snapdragon أو Dimensity؟</strong> الجواب مش بسيط، وفي هذا المقال أحللها من منظور استخدام يومي حقيقي.</p>
+
+    <h2>لمحة سريعة عن كل معالج</h2>
+    <p><strong>Snapdragon</strong> من Qualcomm — الشركة الأمريكية اللي تهيمن على سوق الفلاقشيب منذ سنوات. معروفة بأداء GPU قوي وتحسين البرمجيات مع كثير من الشركات.</p>
+    <p><strong>Dimensity</strong> من MediaTek — الشركة التايوانية اللي حسّنت سمعتها بشكل كبير خلال السنوات الأخيرة، وأصبحت منافساً حقيقياً خصوصاً في الفئة المتوسطة والعليا.</p>
+
+    <h2>جدول المقارنة المباشرة</h2>
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th>الميزة</th>
+          <th>Snapdragon 8 Elite</th>
+          <th>Dimensity 9400</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>أداء CPU</td><td class="win">✅ ممتاز</td><td class="win">✅ ممتاز</td></tr>
+        <tr><td>أداء GPU / ألعاب</td><td class="win">✅ أفضل قليلاً</td><td class="lose">جيد جداً</td></tr>
+        <tr><td>كفاءة البطارية</td><td class="lose">جيد</td><td class="win">✅ أفضل</td></tr>
+        <tr><td>جودة التصوير</td><td class="win">✅ معالجة أقوى</td><td class="lose">جيد</td></tr>
+        <tr><td>الحرارة</td><td class="lose">يسخن أكثر</td><td class="win">✅ أبرد</td></tr>
+        <tr><td>دعم الشركات</td><td class="win">✅ أوسع</td><td class="lose">يتحسن</td></tr>
+        <tr><td>السعر</td><td class="lose">أغلى</td><td class="win">✅ أرخص</td></tr>
+      </tbody>
+    </table>
+
+    <h2>الأداء في الألعاب</h2>
+    <p>لو الألعاب هي أولويتك، <strong>Snapdragon 8 Elite</strong> يتفوق بشكل واضح في الـ GPU. الفرق محسوس في الألعاب الثقيلة مثل Genshin Impact وCall of Duty — فريمات أعلى وحرارة أقل في اللعب المكثف.</p>
+
+    <div class="callout tip">
+      <div class="callout-title">💡 للألعاب</div>
+      <p>لو تلعب بشكل مكثف أكثر من ساعتين يومياً، Snapdragon هو الاختيار الأمثل.</p>
+    </div>
+
+    <h2>البطارية والكفاءة</h2>
+    <p>هنا يتفوق <strong>Dimensity 9400</strong> بشكل ملحوظ. تصميم الـ All-Big-Core الجديد يعطي أداءً ممتازاً مع استهلاك طاقة أقل. في الاستخدام اليومي — سوشيال ميديا، يوتيوب، تصفح — ستلاحظ فرقاً واضحاً في البطارية.</p>
+
+    <h2>جودة التصوير</h2>
+    <p>Snapdragon يتميز بـ ISP (معالج الصور) أكثر نضجاً، خصوصاً في التصوير الليلي والفيديو. لكن الفرق يعتمد كثيراً على تحسينات الشركة المصنّعة للهاتف أكثر من المعالج نفسه.</p>
+
+    <div class="callout warn">
+      <div class="callout-title">⚠️ ملاحظة مهمة</div>
+      <p>جودة الكاميرا تعتمد 60% على البرمجيات والـ Tuning، ليس فقط المعالج. Samsung مع Dimensity قد تتفوق على هاتف Snapdragon من شركة أخرى.</p>
+    </div>
+
+    <h2>خلاصة: من تختار؟</h2>
+    <ul>
+      <li>🎮 <strong>للألعاب المكثفة</strong> → Snapdragon 8 Elite</li>
+      <li>🔋 <strong>للبطارية والاستخدام اليومي</strong> → Dimensity 9400</li>
+      <li>💰 <strong>للقيمة مقابل السعر</strong> → Dimensity بفارق كبير</li>
+      <li>📸 <strong>للتصوير الاحترافي</strong> → Snapdragon بفضل دعم الشركات</li>
+    </ul>
+    <p>في النهاية، كلا المعالجين ممتازان في 2025. الفرق بينهما أصغر بكثير مما كان عليه قبل سنتين.</p>
+
+  </div>
+  <div class="post-nav">
+    <a href="post-shizuku.html" class="post-nav-btn">
+      <span class="post-nav-label">← المقال السابق</span>
+      <span class="post-nav-title">دليل Shizuku وADB</span>
+    </a>
+    <a href="post-python.html" class="post-nav-btn">
+      <span class="post-nav-label">المقال التالي →</span>
+      <span class="post-nav-title">مشروع Python على GitHub</span>
+    </a>
+  </div>
+  <a href="index.html" class="back-home">🏠 الرئيسية</a>
+</div>
+</body>
+</html>

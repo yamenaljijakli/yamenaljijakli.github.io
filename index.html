@@ -66,6 +66,7 @@
     /* ─── NAV ─── */
     nav {
       position: fixed;
+      direction: ltr;
       top: 0; left: 0; right: 0;
       z-index: 100;
       display: flex;
@@ -86,7 +87,7 @@
       text-decoration: none;
     }
 
-    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; direction: ltr; }
     .nav-links a {
       color: var(--muted);
       text-decoration: none;

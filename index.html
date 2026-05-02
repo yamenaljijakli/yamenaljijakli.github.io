@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Yamen | Tech Blog</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Syne:wght@600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:        #0a0a0f;
+      --surface:   #111118;
+      --surface2:  #16161f;
+      --border:    #1e1e2e;
+      --accent:    #7c6af7;
+      --accent2:   #3ecfcf;
+      --accent3:   #f7706a;
+      --text:      #e2e2f0;
+      --muted:     #6b6b8a;
+      --card-glow: rgba(124,106,247,.08);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'IBM Plex Sans Arabic', sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ─── noise overlay ─── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 999;
+      opacity: .5;
+    }
+
+    /* ─── scrollbar ─── */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 4px; }
+
+    /* ─── grid bg ─── */
+    .grid-bg {
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 48px 48px;
+      opacity: .25;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.1rem 2.5rem;
+      background: rgba(10,10,15,.8);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'Syne', sans-serif;
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--accent2);
+      letter-spacing: 1px;
+      text-decoration: none;
+    }
+
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: .88rem;
+      font-weight: 500;
+      transition: color .25s;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -3px; left: 0; right: 0;
+      height: 1px;
+      background: var(--accent);
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform .3s;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-links a:hover::after { transform: scaleX(1); transform-origin: left; }
+
+    /* ─── HERO ─── */
+    .hero {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 7rem 2.5rem 4rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .hero-inner { max-width: 680px; }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      background: rgba(124,106,247,.12);
+      border: 1px solid rgba(124,106,247,.3);
+      color: var(--accent);
+      font-size: .75rem;
+      font-family: 'Fira Code', monospace;
+      padding: .35rem .9rem;
+      border-radius: 100px;
+      margin-bottom: 1.8rem;
+      animation: fadeUp .6s ease both;
+    }
+    .hero-badge .dot {
+      width: 6px; height: 6px;
+      background: var(--accent2);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%,100% { opacity: 1; }
+      50% { opacity: .3; }
+    }
+
+    .hero h1 {
+      font-size: clamp(2.6rem, 6vw, 4.2rem);
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 1.2rem;
+      animation: fadeUp .6s .1s ease both;
+    }
+
+    .hero h1 .accent-line {
+      display: block;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-desc {
+      color: var(--muted);
+      font-size: 1.05rem;
+      max-width: 540px;
+      margin-bottom: 2.5rem;
+      animation: fadeUp .6s .2s ease both;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      animation: fadeUp .6s .3s ease both;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .75rem 1.8rem;
+      border-radius: 8px;
+      font-size: .9rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      border: none;
+      transition: all .25s;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+    .btn-primary:hover { background: #9180f8; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(124,106,247,.35); }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+
+    /* glowing orb */
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      pointer-events: none;
+    }
+    .orb-1 {
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(124,106,247,.18) 0%, transparent 70%);
+      top: 5%; left: -10%;
+      animation: orbFloat 8s ease-in-out infinite;
+    }
+    .orb-2 {
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(62,207,207,.12) 0%, transparent 70%);
+      bottom: 10%; right: -5%;
+      animation: orbFloat 10s ease-in-out infinite reverse;
+    }
+    @keyframes orbFloat {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-30px); }
+    }
+
+    /* ─── STATS strip ─── */
+    .stats-strip {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+    }
+    .stats-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1.6rem 2.5rem;
+      display: flex;
+      gap: 3rem;
+      flex-wrap: wrap;
+    }
+    .stat { display: flex; flex-direction: column; }
+    .stat-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--accent2);
+    }
+    .stat-label { font-size: .8rem; color: var(--muted); }
+
+    /* ─── SECTION BASE ─── */
+    section {
+      position: relative;
+      z-index: 1;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 5rem 2.5rem;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2.8rem;
+    }
+    .section-tag {
+      font-family: 'Fira Code', monospace;
+      font-size: .7rem;
+      color: var(--accent);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+    .section-line { flex: 1; height: 1px; background: var(--border); }
+    .section-title {
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      font-weight: 700;
+    }
+
+    /* ─── ABOUT ─── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+    .about-text p { color: var(--muted); margin-bottom: 1rem; }
+    .about-text p strong { color: var(--text); }
+
+    .skills-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .6rem;
+      margin-top: 1.5rem;
+    }
+    .skill-chip {
+      font-family: 'Fira Code', monospace;
+      font-size: .72rem;
+      padding: .3rem .8rem;
+      border-radius: 4px;
+      border: 1px solid;
+    }
+    .skill-chip.py   { border-color: rgba(62,207,207,.4); color: var(--accent2); background: rgba(62,207,207,.06); }
+    .skill-chip.java { border-color: rgba(247,112,106,.4); color: var(--accent3); background: rgba(247,112,106,.06); }
+    .skill-chip.adb  { border-color: rgba(124,106,247,.4); color: var(--accent);  background: rgba(124,106,247,.06); }
+    .skill-chip.gen  { border-color: var(--border); color: var(--muted); }
+
+    .about-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.4rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .about-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+    }
+    .info-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .info-icon {
+      width: 36px; height: 36px;
+      background: rgba(124,106,247,.1);
+      border: 1px solid rgba(124,106,247,.2);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+    .info-label { font-size: .75rem; color: var(--muted); }
+    .info-value { font-size: .92rem; font-weight: 500; }
+
+    /* ─── BLOG CARDS ─── */
+    .posts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .post-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.8rem;
+      cursor: pointer;
+      transition: transform .3s, border-color .3s, box-shadow .3s;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      position: relative;
+      overflow: hidden;
+      text-decoration: none;
+      color: inherit;
+    }
+    .post-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--card-glow);
+      opacity: 0;
+      transition: opacity .3s;
+    }
+    .post-card:hover { transform: translateY(-5px); border-color: rgba(124,106,247,.4); box-shadow: 0 12px 40px rgba(0,0,0,.4); }
+    .post-card:hover::before { opacity: 1; }
+
+    .post-category {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      font-size: .72rem;
+      font-family: 'Space Mono', monospace;
+      padding: .25rem .7rem;
+      border-radius: 4px;
+      width: fit-content;
+    }
+    .cat-tech    { background: rgba(124,106,247,.12); color: var(--accent); border: 1px solid rgba(124,106,247,.25); }
+    .cat-code    { background: rgba(62,207,207,.12);  color: var(--accent2); border: 1px solid rgba(62,207,207,.25); }
+    .cat-gaming  { background: rgba(247,112,106,.12); color: var(--accent3); border: 1px solid rgba(247,112,106,.25); }
+    .cat-android { background: rgba(124,247,106,.12); color: #7cf76a; border: 1px solid rgba(124,247,106,.25); }
+
+    .post-title { font-size: 1.05rem; font-weight: 600; line-height: 1.4; }
+    .post-excerpt { font-size: .87rem; color: var(--muted); flex: 1; }
+    .post-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: .75rem;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+      padding-top: .8rem;
+      font-family: 'Fira Code', monospace;
+      display: flex;
+      align-items: center;
+      gap: .3rem;
+      color: var(--accent);
+      font-size: .78rem;
+      transition: gap .25s;
+    }
+    .post-card:hover .read-more { gap: .6rem; }
+
+    /* ─── FEATURED card ─── */
+    .post-card.featured {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      align-items: center;
+    }
+    .post-card.featured .post-content { display: flex; flex-direction: column; gap: 1rem; }
+    .post-card.featured .post-title { font-size: 1.4rem; }
+    .featured-badge {
+      font-family: 'Space Mono', monospace;
+      font-size: .65rem;
+      color: var(--accent3);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+    .featured-visual {
+      background: linear-gradient(135deg, rgba(124,106,247,.15), rgba(62,207,207,.1));
+      border-radius: 10px;
+      height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4rem;
+      border: 1px solid var(--border);
+    }
+
+    /* ─── SOCIAL ─── */
+    .social-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+
+    .social-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      text-decoration: none;
+      color: inherit;
+      transition: border-color .3s, transform .3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .social-card.available:hover {
+      transform: translateY(-3px);
+      border-color: var(--accent);
+    }
+    .social-card.placeholder {
+      opacity: .45;
+      cursor: not-allowed;
+    }
+    .social-icon {
+      width: 46px; height: 46px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+    .icon-github  { background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.1); }
+    .icon-x       { background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.1); }
+    .icon-tg      { background: rgba(62,207,207,.1);   border: 1px solid rgba(62,207,207,.2); }
+
+    .social-info { flex: 1; }
+    .social-name { font-weight: 600; font-size: .95rem; }
+    .social-handle { font-size: .8rem; color: var(--muted); font-family: 'Fira Code', monospace; }
+    .soon-badge {
+      font-size: .65rem;
+      background: rgba(247,112,106,.1);
+      color: var(--accent3);
+      border: 1px solid rgba(247,112,106,.2);
+      padding: .2rem .5rem;
+      border-radius: 4px;
+      font-family: 'Fira Code', monospace;
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid var(--border);
+      background: var(--surface);
+    }
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2rem 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-copy { font-size: .82rem; color: var(--muted); }
+    .footer-mono { font-family: 'Fira Code', monospace; font-size: .72rem; color: var(--muted); }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.2rem; }
+      .nav-links { gap: 1rem; }
+      section { padding: 3.5rem 1.2rem; }
+      .about-grid { grid-template-columns: 1fr; }
+      .post-card.featured { grid-template-columns: 1fr; }
+      .featured-visual { display: none; }
+      .hero { padding: 6rem 1.2rem 3rem; }
+      .stats-inner { gap: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">YAMEN.DEV</a>
+  <ul class="nav-links">
+    <li><a href="#about">عني</a></li>
+    <li><a href="#blog">المدونة</a></li>
+    <li><a href="#social">تواصل</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">
+      <span class="dot"></span>
+      متاح للتعاون في المشاريع
+    </div>
+    <h1>
+      مرحباً، أنا
+      <span class="accent-line">يامن 👾</span>
+    </h1>
+    <p class="hero-desc">
+      طالب علوم حاسب وعاشق للتقنية. أكتب هنا عن الهاردوير، تعديلات الأندرويد، البرمجة، والألعاب. كل مقالة فيها شيء تعلمته من التجربة والتفكير.
+    </p>
+    <div class="hero-actions">
+      <a href="#blog" class="btn btn-primary">📝 اقرأ المدونة</a>
+      <a href="#about" class="btn btn-outline">تعرّف عليّ</a>
+    </div>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats-strip">
+  <div class="stats-inner">
+    <div class="stat">
+      <span class="stat-num">22</span>
+      <span class="stat-label">سنة من الفضول التقني</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">3+</span>
+      <span class="stat-label">سنوات برمجة بايثون وجافا</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">∞</span>
+      <span class="stat-label">ساعات تجربة أجهزة جديدة</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">جدة</span>
+      <span class="stat-label">المملكة العربية السعودية 🇸🇦</span>
+    </div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-header reveal">
+    <span class="section-tag">// عنّي</span>
+    <div class="section-line"></div>
+  </div>
+  <h2 class="section-title reveal" style="margin-bottom:2.5rem;">من أنا؟</h2>
+
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <p>أنا <strong>يامن</strong>، طالب في تخصص علوم الحاسب بالجامعة العربية المفتوحة. التقنية بالنسبة لي ليست مجرد دراسة — هي شغف حقيقي يبدأ من فك الأجهزة وفهم كيف تعمل من الداخل.</p>
+      <p>أحب <strong>البرمجة بالبايثون وجافا</strong>، وأقضي وقتاً طويلاً في تعديل أنظمة الأندرويد باستخدام أدوات مثل <strong>ADB وShizuku</strong>. مقارنة الهواتف الجديدة والغوص في مواصفات الهاردوير من هواياتي المفضلة.</p>
+      <p>هذه المدونة هي مساحتي لمشاركة ما أتعلمه وما أجربه — بأسلوب عربي واضح بعيد عن التعقيد.</p>
+      <div class="skills-list">
+        <span class="skill-chip py">Python</span>
+        <span class="skill-chip java">Java</span>
+        <span class="skill-chip adb">ADB</span>
+        <span class="skill-chip adb">Shizuku</span>
+        <span class="skill-chip gen">Android Modding</span>
+        <span class="skill-chip gen">Hardware</span>
+        <span class="skill-chip gen">GitHub</span>
+        <span class="skill-chip gen">Gaming</span>
+      </div>
+    </div>
+
+    <div class="about-card reveal">
+      <div class="info-row">
+        <div class="info-icon">🎓</div>
+        <div>
+          <div class="info-label">الجامعة</div>
+          <div class="info-value">الجامعة العربية المفتوحة</div>
+        </div>
+      </div>
+      <div class="info-row">
+        <div class="info-icon">💻</div>
+        <div>
+          <div class="info-label">التخصص</div>
+          <div class="info-value">علوم الحاسب — Computer Science</div>
+        </div>
+      </div>
+      <div class="info-row">
+        <div class="info-icon">📍</div>
+        <div>
+          <div class="info-label">الموقع</div>
+          <div class="info-value">جدة، المملكة العربية السعودية</div>
+        </div>
+      </div>
+      <div class="info-row">
+        <div class="info-icon">🔥</div>
+        <div>
+          <div class="info-label">الاهتمامات</div>
+          <div class="info-value">تقنية · برمجة · أندرويد · ألعاب</div>
+        </div>
+      </div>
+      <div class="info-row">
+        <div class="info-icon">🤝</div>
+        <div>
+          <div class="info-label">الحالة</div>
+          <div class="info-value" style="color:var(--accent2);">متاح للتعاون في المشاريع</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BLOG -->
+<section id="blog">
+  <div class="section-header reveal">
+    <span class="section-tag">// المدونة</span>
+    <div class="section-line"></div>
+  </div>
+  <h2 class="section-title reveal" style="margin-bottom:2.5rem;">آخر المقالات</h2>
+
+  <div class="posts-grid">
+
+    <!-- Featured -->
+    <a href="#" class="post-card featured reveal">
+      <div class="featured-visual">🤖</div>
+      <div class="post-content">
+        <span class="featured-badge">⭐ مميزة</span>
+        <span class="post-category cat-android">🤖 أندرويد</span>
+        <h3 class="post-title">دليل شامل: كيف تتحكم في هاتفك بدون روت باستخدام Shizuku وADB</h3>
+        <p class="post-excerpt">تعرف على كيفية تفعيل صلاحيات متقدمة على أندرويد دون الحاجة لعمل روت — شرح تفصيلي من التجربة الفعلية.</p>
+        <div class="post-footer">
+          <span>٢٨ أبريل ٢٠٢٥</span>
+          <span class="read-more">اقرأ المقال →</span>
+        </div>
+      </div>
+    </a>
+
+    <!-- Card 2 -->
+    <a href="#" class="post-card reveal">
+      <span class="post-category cat-tech">⚙️ هاردوير</span>
+      <h3 class="post-title">مقارنة معالجات 2025: Snapdragon vs Dimensity — أيهما يستحق فلوسك؟</h3>
+      <p class="post-excerpt">تحليل مفصّل للفرق الفعلي بين المعالجتين في الأداء، البطارية، والتصوير.</p>
+      <div class="post-footer">
+        <span>١٥ أبريل ٢٠٢٥</span>
+        <span class="read-more">اقرأ →</span>
+      </div>
+    </a>
+
+    <!-- Card 3 -->
+    <a href="#" class="post-card reveal">
+      <span class="post-category cat-code">🐍 برمجة</span>
+      <h3 class="post-title">مشروعي الأول على GitHub: أوتوميشن بالبايثون يوفر ساعات من العمل</h3>
+      <p class="post-excerpt">شاركت مشروعاً صغيراً لأتمتة مهام متكررة — هنا أشرح الفكرة وكيف بنيته من الصفر.</p>
+      <div class="post-footer">
+        <span>٢ أبريل ٢٠٢٥</span>
+        <span class="read-more">اقرأ →</span>
+      </div>
+    </a>
+
+    <!-- Card 4 -->
+    <a href="#" class="post-card reveal">
+      <span class="post-category cat-gaming">🎮 ألعاب</span>
+      <h3 class="post-title">أفضل الألعاب التي لعبتها هذا الربع — تجارب شخصية بلا سبويلر</h3>
+      <p class="post-excerpt">قائمتي الشخصية للألعاب التي تركت أثراً — مع رأيي الصريح بعيداً عن التقييمات التقليدية.</p>
+      <div class="post-footer">
+        <span>٢٠ مارس ٢٠٢٥</span>
+        <span class="read-more">اقرأ →</span>
+      </div>
+    </a>
+
+    <!-- Card 5 -->
+    <a href="#" class="post-card reveal">
+      <span class="post-category cat-tech">📱 مراجعة</span>
+      <h3 class="post-title">بعد شهر مع الهاتف الجديد: ما لم يقله أحد في المراجعات الأولى</h3>
+      <p class="post-excerpt">تجربة استخدام يومية حقيقية تكشف الجوانب التي لا تظهر في مراجعات اليوم الأول.</p>
+      <div class="post-footer">
+        <span>١٠ مارس ٢٠٢٥</span>
+        <span class="read-more">اقرأ →</span>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- SOCIAL -->
+<section id="social">
+  <div class="section-header reveal">
+    <span class="section-tag">// تواصل</span>
+    <div class="section-line"></div>
+  </div>
+  <h2 class="section-title reveal" style="margin-bottom:.8rem;">تجدني هنا</h2>
+  <p class="reveal" style="color:var(--muted);margin-bottom:2rem;font-size:.92rem;">تابعني على المنصات التالية أو تواصل معي مباشرة.</p>
+
+  <div class="social-grid">
+
+    <a href="https://github.com/yamenaljijakli" target="_blank" class="social-card available reveal">
+      <div class="social-icon icon-github">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+      </div>
+      <div class="social-info">
+        <div class="social-name">GitHub</div>
+        <div class="social-handle">@yamenaljijakli</div>
+      </div>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--muted)"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+    </a>
+
+    <a href="https://x.com/yamen5533" target="_blank" class="social-card available reveal">
+      <div class="social-icon icon-x">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.743l7.73-8.835L1.254 2.25H8.08l4.259 5.63L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg>
+      </div>
+      <div class="social-info">
+        <div class="social-name">X (Twitter)</div>
+        <div class="social-handle">@yamen5533</div>
+      </div>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--muted)"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+    </a>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <span class="footer-copy">© 2025 يامن — جميع الحقوق محفوظة</span>
+    <span class="footer-mono">built with ❤️ &amp; lots of caffeine</span>
+  </div>
+</footer>
+
+<script>
+  // Intersection Observer for reveal animations
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Active nav highlight on scroll
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 120) current = s.getAttribute('id');
+    });
+    navLinks.forEach(a => {
+      a.style.color = a.getAttribute('href') === '#' + current ? 'var(--text)' : '';
+    });
+  });
+</script>
+</body>
+</html>
